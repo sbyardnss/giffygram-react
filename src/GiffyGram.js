@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
 import { NavBar } from "./nav/NavBar"
+import { NavBarProvider } from "./nav/NavBarContext"
 // import { NavBar } from "./nav/Navbar"
 import { ApplicationViews } from "./views/ApplicationViews"
 import { Authorized } from "./views/Authorized"
@@ -16,10 +17,11 @@ export const GiffyGram = () => {
 		<Route path="*" element={
 			<>
 				<Authorized >
-					
+					<NavBarProvider>
 						<NavBar />
 						<ApplicationViews />
-					
+					</NavBarProvider>
+
 				</Authorized>
 			</>
 
