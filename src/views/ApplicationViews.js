@@ -18,6 +18,7 @@ export const ApplicationViews = () => {
 			}>
 
 					{/* <Route path="/" element={ <NewPost/> } /> */}
+
 					<Route path="/" element={ <PostList/> } />
 					<Route path="" element={<></>} />
 					

@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react"
 import "../styles/navigation.css"
 import { ReactSVG } from "react"
 import { penIcon } from "../images/penSVG"
+
 // import "./Navbar.css"
 // import { ShoppingCartContext } from "./NavbarContext"
 
@@ -24,6 +25,11 @@ export const NavBar = () => {
                 <button id="messageCount" className="notification__count">5</button>
             </div>
             <div className="navigation__logout">
+
+             <img id="directMessageIcon" src={require('../images/fountain-pen.svg')} />
+             <button id="messageCount" className="notification__count">5</button>
+            </div>
+            <div className="navbar__item navbar__logout">
                 <Link className="navigation__icon" to="" onClick={() => {
                     localStorage.removeItem("giffy_user")
                     Navigate("/", { replace: true })
