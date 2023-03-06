@@ -1,0 +1,21 @@
+#postFeed {
+    margin-top: 7rem;
+    /* padding: 7rem 0; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.post{
+
+    /* padding: 7rem 0; */
+    display: block;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 7rem;
+}
+
+.post__image {
+    width: inherit
+}

@@ -2,6 +2,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
 import "../styles/navigation.css"
 import { ReactSVG } from "react"
+import { penIcon } from "../images/penSVG"
 
 // import "./Navbar.css"
 // import { ShoppingCartContext } from "./NavbarContext"
@@ -20,6 +21,11 @@ export const NavBar = () => {
             <Link className="navigation__icon" to="/"><img src={require('../images/pb.png')} /></Link>
             <h1 id="navName" className="navigation__name">Giffygram</h1>
             <div className="navigation__message">
+                <img id="directMessageIcon" src={() => penIcon()} />
+                <button id="messageCount" className="notification__count">5</button>
+            </div>
+            <div className="navigation__logout">
+
              <img id="directMessageIcon" src={require('../images/fountain-pen.svg')} />
              <button id="messageCount" className="notification__count">5</button>
             </div>
