@@ -41,10 +41,6 @@
     height: 2rem;
 }
 
-svg {
-    height: 2rem;
-}
-
 .notification__count{
     background-color:goldenrod;
     font-size: small;

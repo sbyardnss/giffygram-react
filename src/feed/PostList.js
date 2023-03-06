@@ -3,17 +3,16 @@ import { useEffect, useState } from "react"
 import "./postList.css"
 import { NewPost } from "../newPost/newPost"
 import { NewMessage } from "../newMessage/newMessage"
-
-
-export const PostList = () => {
-    const [sortedPosts, setSortedPosts] = useState([])
-    
-
 import "../styles/feed.css"
 
-
-
 export const PostList = () => {
+
+
+
+
+
+
+    const [sortedPosts, setSortedPosts] = useState([])
     const [posts, setPosts] = useState([])
 
     useEffect(
@@ -36,8 +35,8 @@ export const PostList = () => {
     return <>
         <div className="giffygram__feed">
             <article id="postFeed">
-                <NewPost />
                 <NewMessage />
+                <NewPost />
 
                 {
                     sortedPosts.map(post => {
@@ -65,33 +64,6 @@ export const PostList = () => {
 
 
 
-    return <>
-    <div className="giffygram__feed">
-        <article>
-
-        {
-            posts.map(post => {
-                return (
-                <section className="post">
-                    <h4>{post.title}</h4>
-                    <img className="post__image" src={post.url}/>
-                    <div className="post__tagline">{post.story}</div>
-                    <div className="post__remark">this was posted by {post?.user?.firstName} on {post.date}</div>
-                    <section className="post__actions">
-                    </section>
-                </section>
-            )
-              
-        })
-    }
-        </article>
-        
-
-    </div>
-        
-    </>
-
-    
 }
 
 
