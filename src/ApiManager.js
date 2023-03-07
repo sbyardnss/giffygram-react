@@ -53,3 +53,22 @@ export const getAllUsers = () => {
 
 
 }
+
+export const getAllUserFavorites = () => {
+    return fetch(`http://localhost:8088/userFavorites`)
+        .then(res => res.json())
+
+
+}
+
+export const sendUserFavorite = (userFav) => {
+    return fetch(`http://localhost:8088/userFavorites`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(userFav)
+    })
+    .then(res => res.json())
+
+}
