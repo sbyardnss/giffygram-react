@@ -1,6 +1,8 @@
 .directMessage {
     padding: 0.75rem 2rem 2rem 2rem;
-    margin: 5rem 25% 0 25%;
+    margin: 0 25%;
+    margin-bottom: 2rem;
+    border: 1px solid cadetblue;
     background-color: aliceblue;
     position: relative;
 }

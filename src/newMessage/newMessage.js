@@ -47,7 +47,7 @@ export const NewMessage = () => {
     if (createMessage === true) {
 
         return <>
-            <div class="directMessage">
+            <div className="directMessage">
                 <h2>Direct Message</h2>
                 <form>
                     <fieldset className="newPost__input">
@@ -65,7 +65,7 @@ export const NewMessage = () => {
                                 {
                                     users.map(user => {
                                         if (user.id !== parseInt(localStorage.getItem("giffy_user"))) {
-                                            return <option value={user.id}>{user.firstName} {user.lastName}</option>
+                                            return <option key={user.id} value={user.id}>{user.firstName} {user.lastName}</option>
                                         }
                                     })
                                 }
@@ -75,7 +75,7 @@ export const NewMessage = () => {
 
 
                         <div className="newPost__input">
-                            <textarea id="messageSection" class="message__section" placeholder="Message to user" onChange={
+                            <textarea id="messageSection" className="message__section" placeholder="Message to user" onChange={
                                 (evt) => {
                                     const copy = { ...newMessage }
                                     copy.message = evt.target.value

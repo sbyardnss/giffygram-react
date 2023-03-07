@@ -1,26 +1,31 @@
 .miniMode {
     padding: 1rem;
-    margin: 0 25%;
+    /* margin: 0 25%; */
     border: 1px dashed slategrey;
     border-radius: 0.5rem;
     text-align: center;
     cursor: pointer;
+    width: 400px;
 }
 
 .newPost {
+
     margin: 0 25%;
     /* display: block;
     text-align: center; */
     display: flex;
     flex-direction: column;
+    align-items: center;
     border: 1px dashed slategrey;
     border-radius: 0.5rem;
     padding: 30px;
+    min-width: 400px;
+
     /* align-items: center; */
 }
 
 .newPost__input {
-    width: inherit;
+    width: 400px;
     margin: 0.5rem 0;
 }
 

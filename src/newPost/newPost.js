@@ -12,8 +12,8 @@ export const NewPost = () => {
             var day = dateObj.getUTCDate();
             var year = dateObj.getUTCFullYear();
 
-            const newDate = year + "/" + month + "/" + day
-            
+            const newDate = month + "/" + day + "/" + year
+
     const [newPost, updateNewPost] = useState({
         title: "",
         url: "",
@@ -50,7 +50,7 @@ export const NewPost = () => {
     if (createPost === true) {
 
         return <>
-            <div class="newPost">
+            <div className="newPost">
                 <form>
 
                     <fieldset className="newPost__input">
@@ -90,7 +90,12 @@ export const NewPost = () => {
                     
 
                         <div>
-                            <button onClick={() => sendNewPost(newPostToSendToAPI)} id="savePost">Save</button>
+                            <button onClick={() => {
+                                if(newPost.story && newPost.title && newPost.url) {
+
+                                    sendNewPost(newPostToSendToAPI)
+                                }
+                                }} id="savePost">Save</button>
                             <button onClick={() => setCreatePost(false)} id="cancelPost">Cancel</button>
                         </div>
                     </fieldset>
