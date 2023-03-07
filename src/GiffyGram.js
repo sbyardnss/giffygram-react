@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
+import { Footer } from "./nav/Footer"
 import { NavBar } from "./nav/NavBar"
 import { NavBarProvider } from "./nav/NavBarContext"
 // import { NavBar } from "./nav/Navbar"
