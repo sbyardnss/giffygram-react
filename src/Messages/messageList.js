@@ -14,17 +14,11 @@ export const MessageList = () => {
 
     useEffect(
         () => {
-            getAllMessagesForCurrentUser()
+            getAllMessages()
                 .then((msgArray) => {
-                    if (msgArray.length > 1) {
                         const sortedUserMessages = msgArray.sort((a, b) => b.id - a.id)
-                        setSortedMsgs(sortedUserMessages)
-
-                    }
-                    else {
-                        setSortedMsgs(msgArray)
-                    }
-                    // msgArray.filter(message => message.postRecipient === giffyUserObj.id)
+                        const sortedFilteredUserMsgs = sortedUserMessages.filter(msg => msg.postRecipient === giffyUserObj.id)
+                        setSortedMsgs(sortedFilteredUserMsgs)
                 }
                 )
         },
