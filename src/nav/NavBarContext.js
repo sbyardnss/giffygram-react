@@ -6,6 +6,11 @@ export const NavBarContext = createContext()
 export const NavBarProvider = (props) => {
     const [createMessage, setCreateMessage] = useState(false)
     const [msgReadSwitch, setMsgReadSwitch] = useState(false)
+    const [filteredByYear, setFilteredByYear] = useState("")
+    const [filteredByUser, setFilteredByUser] = useState(0)
+    const [filteredByFavorite, setFilteredByFavorite] = useState(false)
+    const [renderSwitch, setRenderSwitch] = useState(false)
+
     // const localGiffyUser = localStorage.getItem("giffy_user")
     // const giffyUserObj = JSON.parse(localGiffyUser)
 
@@ -13,7 +18,7 @@ export const NavBarProvider = (props) => {
 
     return (
         <NavBarContext.Provider value={{
-            createMessage, setCreateMessage, msgReadSwitch, setMsgReadSwitch
+            createMessage, setCreateMessage, msgReadSwitch, setMsgReadSwitch, filteredByYear, setFilteredByYear, filteredByUser, setFilteredByUser, filteredByFavorite, setFilteredByFavorite, renderSwitch, setRenderSwitch
         }}>
             {props.children}
         </NavBarContext.Provider>
