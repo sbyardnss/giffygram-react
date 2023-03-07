@@ -11,6 +11,8 @@ import { getAllMessages, getAllMessagesForCurrentUser } from "../ApiManager"
 // import { ShoppingCartContext } from "./NavbarContext"
 
 export const NavBar = () => {
+    
+
     const [unreadUserMsgs, setUnreadUserMsgs] = useState([])
     const navigate = useNavigate()
     const localGiffyUser = localStorage.getItem("giffy_user")
@@ -18,14 +20,18 @@ export const NavBar = () => {
     const { setCreateMessage } = useContext(NavBarContext)
     const { msgReadSwitch } = useContext(NavBarContext)
 
+
     useEffect(
         () => {
-            getAllMessagesForCurrentUser()
-            .then((msgArray) => {
-                const unreadMsgs = msgArray.filter(msg => msg.read === false)
-                setUnreadUserMsgs(unreadMsgs)
+                getAllMessages()
+                    .then((msgArray) => {
+                        const unreadMsgs = msgArray.filter(msg => msg.read === false)
+                        const unreadUserMsgs = unreadMsgs.filter(msg => msg.postRecipient === giffyUserObj.id)
+                        setUnreadUserMsgs(unreadUserMsgs)
 
-            })
+                    })
+
+            
         },
         [msgReadSwitch]
     )
