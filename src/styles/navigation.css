@@ -43,6 +43,8 @@
 
 svg {
     height: 2rem;
+    cursor: pointer;
+
 }
 
 .notification__count{

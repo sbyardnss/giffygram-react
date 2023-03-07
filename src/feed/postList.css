@@ -1,9 +1,10 @@
 #postFeed {
-    margin-top: 7rem;
+    /* margin-top: 2rem; */
     /* padding: 7rem 0; */
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .post{

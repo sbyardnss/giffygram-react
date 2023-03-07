@@ -4,17 +4,31 @@ import "../styles/navigation.css"
 import { ReactSVG } from "react"
 import { ReactComponent as PenIcon } from "../images/fountain-pen.svg"
 import { NavBarContext } from "./NavBarContext"
+import { getAllMessages, getAllMessagesForCurrentUser } from "../ApiManager"
 
 
 // import "./Navbar.css"
 // import { ShoppingCartContext } from "./NavbarContext"
 
 export const NavBar = () => {
-
+    const [unreadUserMsgs, setUnreadUserMsgs] = useState([])
+    const navigate = useNavigate()
     const localGiffyUser = localStorage.getItem("giffy_user")
     const giffyUserObj = JSON.parse(localGiffyUser)
     const { setCreateMessage } = useContext(NavBarContext)
+    const { msgReadSwitch } = useContext(NavBarContext)
 
+    useEffect(
+        () => {
+            getAllMessagesForCurrentUser()
+            .then((msgArray) => {
+                const unreadMsgs = msgArray.filter(msg => msg.read === false)
+                setUnreadUserMsgs(unreadMsgs)
+
+            })
+        },
+        [msgReadSwitch]
+    )
 
     return (
         <header className="navigation">
@@ -23,7 +37,7 @@ export const NavBar = () => {
             <h1 id="navName" className="navigation__name">Giffygram</h1>
             <div className="navigation__message">
                 <PenIcon onClick={() => setCreateMessage(true)} ></PenIcon>
-                <button id="messageCount" className="notification__count">5</button>
+                <button id="messageCount" onClick={() => navigate("messages")} className="notification__count">{unreadUserMsgs.length}</button>
             </div>
             <div className="navigation__logout">
                 <Link className="navigation__icon" to="" onClick={() => {
