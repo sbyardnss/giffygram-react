@@ -34,7 +34,7 @@ export const NewMessage = () => {
     })
 
     const newMessageToSendToAPI = {
-        postUser: giffyUserObj.id,
+        userId: giffyUserObj.id,
         postRecipient: newMessage.postRecipient,
         message: newMessage.message,
         date: newDate,
