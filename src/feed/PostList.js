@@ -110,17 +110,12 @@ export const PostList = () => {
                     let favArr = []
                     filteredFavPosts.map(filteredFav => {  
                         let favPost = filteredPosts.find(post => post.id === filteredFav.postId)
-                        favArr.push(favPost)
-
-                        // filteredPosts = filteredPosts.filter(post => {
-                        //     if (post.id === filteredFav.postId) {
-                        //         return true
-                        //     }
-                        //     return false
-                        // })
+                        if (favPost) {
+                            favArr.push(favPost)
+                        }
 
                     })
-                    filteredPosts = favArr
+                    filteredPosts = favArr.sort((a, b) => b.id - a.id)
 
                 }
                 setPrintedPosts(filteredPosts)
@@ -135,10 +130,10 @@ export const PostList = () => {
         // const userFavorites = getAllUserFavorites()
         // const matchedFavorite = userFavorites.find(userFav => (userFav.postId === post.id && userFav.userId === parseInt(localStorage.getItem("giffy_user"))))
         const activeUserFavorites = userFavorites.filter(userFav => userFav.userId === giffyUserObj.id)
-        const matchedFavorite = activeUserFavorites.find(userFav => userFav.postId === post.id)
+        const matchedFavorite = activeUserFavorites.find(userFav => userFav.postId === post?.id)
         if (matchedFavorite) {
             return <>
-                <YellowStar className="post__reactions" key={post.id} onClick={() => {
+                <YellowStar className="post__reactions" key={post?.id} onClick={() => {
                     fetch(`http://localhost:8088/userFavorites/${matchedFavorite.id}`, {
                         method: "DELETE"
                     })
@@ -147,7 +142,7 @@ export const PostList = () => {
             </>
         } else {
             return <>
-                <BlankStar key={post.id} onClick={() => {
+                <BlankStar key={post?.id} onClick={() => {
                     const newUserFav = {
                         userId: giffyUserObj.id,
                         postId: post.id
@@ -164,10 +159,10 @@ export const PostList = () => {
 
     const deleteOption = (post) => {
         const matchedUser = giffyUserObj
-        if (post.userId === matchedUser.id) {
+        if (post?.userId === matchedUser.id) {
             return <>
                 <TrashIcon onClick={() =>
-                    fetch(`http://localhost:8088/posts/${post.id}`, {
+                    fetch(`http://localhost:8088/posts/${post?.id}`, {
                         method: "DELETE"
                     })
                         .then(setRenderSwitch(!renderSwitch))
@@ -185,11 +180,11 @@ export const PostList = () => {
                 {
                     printedPosts.map(post => {
                         return (
-                            <section className="post" key={post.id}>
-                                <h4>{post.title}</h4>
-                                <img className="post__image" src={post.url} />
-                                <div className="post__tagline">{post.story}</div>
-                                <div className="post__remark">this was posted by {post?.user?.firstName} on {post.date}</div>
+                            <section className="post" key={post?.id}>
+                                <h4>{post?.title}</h4>
+                                <img className="post__image" src={post?.url} />
+                                <div className="post__tagline">{post?.story}</div>
+                                <div className="post__remark">this was posted by {post?.user?.firstName} on {post?.date}</div>
                                 <section className="post__actions">
                                     {isFavorited(post)}
                                     {deleteOption(post)}
