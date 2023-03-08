@@ -15,7 +15,7 @@ import { NavBarContext } from "../nav/NavBarContext"
 export const PostList = () => {
 
     const [sortedPosts, setSortedPosts] = useState([])
-    // const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState([])
     const [userFavorites, setUserFavorites] = useState([])
     const [renderSwitch, setRenderSwitch] = useState(false)
     const { filteredByYear, filteredByUser, filteredByFavorite } = useContext(NavBarContext)
@@ -61,7 +61,7 @@ export const PostList = () => {
                     // setPosts(postsArr)
                 })
         },
-        []
+        [renderSwitch]
     )
 
     useEffect(
@@ -71,12 +71,16 @@ export const PostList = () => {
 
                     setUserFavorites(userFavoriteArray)
                 })
+                .then(() => {
+                    setFilterUpdated(!filterUpdated)
+
+                })
         },
         [renderSwitch]
     )
 
 
-    
+
 
 
 
@@ -85,50 +89,53 @@ export const PostList = () => {
 
     useEffect(
         () => {
+            
+                    if (sortedPosts) {
+                        // setPrintedPosts(sortedPosts)
+                        let filteredPosts = sortedPosts
 
-            if (sortedPosts) {
-                // setPrintedPosts(sortedPosts)
-                let filteredPosts = sortedPosts
-
-                if (stateOfFilter.selectedYear !== 0) {
-                    filteredPosts = filteredPosts.filter(post => {
-                        let [, , postYear] = post.date.split("/")
-                        if (parseInt(postYear) === filteredYear) {
-                            return true
+                        if (stateOfFilter.selectedYear !== 0) {
+                            filteredPosts = filteredPosts.filter(post => {
+                                let [, , postYear] = post.date.split("/")
+                                if (parseInt(postYear) === filteredYear) {
+                                    return true
+                                }
+                            })
                         }
-                    })
-                }
-                if (stateOfFilter.selectedUser) {
-                    filteredPosts = filteredPosts.filter(post => post.userId === stateOfFilter.selectedUser)
-                }
-                if (filteredByFavorite === true) {
-                    let filteredFavPosts = []
-                    {
-                        userFavorites.map(userFav => {
-                            if (giffyUserObj.id === userFav.userId) {
-                                filteredFavPosts.push(userFav)
+                        if (stateOfFilter.selectedUser) {
+                            filteredPosts = filteredPosts.filter(post => post.userId === stateOfFilter.selectedUser)
+                        }
+                        if (filteredByFavorite === true) {
+                            let filteredFavPosts = []
+                            {
+                                userFavorites.map(userFav => {
+                                    if (giffyUserObj.id === userFav.userId) {
+                                        filteredFavPosts.push(userFav)
+                                    }
+                                })
                             }
-                        })
-                    }
 
 
-                    let favArr = []
-                    filteredFavPosts.map(filteredFav => {
-                        let favPost = filteredPosts.find(post => post.id === filteredFav.postId)
-                        if (favPost) {
-                            favArr.push(favPost)
+                            let favArr = []
+                            filteredFavPosts.map(filteredFav => {
+                                let favPost = filteredPosts.find(post => post.id === filteredFav.postId)
+                                if (favPost) {
+                                    favArr.push(favPost)
+                                }
+
+                            })
+                            filteredPosts = favArr.sort((a, b) => b.id - a.id)
+
                         }
-
-                    })
-                    filteredPosts = favArr.sort((a, b) => b.id - a.id)
-
-                }
-                setPrintedPosts(filteredPosts)
+                        setPrintedPosts(filteredPosts)
 
 
-            }
+                    }
+                
         },
-        [filterUpdated, sortedPosts, renderSwitch]
+        [filterUpdated, sortedPosts]
+
+
     )
 
     const isFavorited = (post) => {
@@ -143,7 +150,7 @@ export const PostList = () => {
                         method: "DELETE"
                     })
                     setRenderSwitch(!renderSwitch)
-                    
+
 
                 }} ></YellowStar>
             </>
@@ -172,7 +179,10 @@ export const PostList = () => {
                     fetch(`http://localhost:8088/posts/${post?.id}`, {
                         method: "DELETE"
                     })
-                        .then(() => setRenderSwitch(!renderSwitch))
+                        .then(() => {
+                            setRenderSwitch(!renderSwitch)
+                        })
+                        
                 } ></TrashIcon>
             </>
         }
