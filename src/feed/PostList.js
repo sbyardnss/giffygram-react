@@ -15,49 +15,55 @@ import { NavBarContext } from "../nav/NavBarContext"
 export const PostList = () => {
 
     const [sortedPosts, setSortedPosts] = useState([])
-    const [posts, setPosts] = useState([])
+    // const [posts, setPosts] = useState([])
     const [userFavorites, setUserFavorites] = useState([])
-    // const [renderSwitch, setRenderSwitch] = useState(false)
-    const { filteredByYear, filteredByUser, filteredByFavorite, renderSwitch, setRenderSwitch } = useContext(NavBarContext)
+    const [renderSwitch, setRenderSwitch] = useState(false)
+    const { filteredByYear, filteredByUser, filteredByFavorite } = useContext(NavBarContext)
     const [stateOfFilter, setStateOfFilter] = useState({})
+    const [filterUpdated, setFilterUpdated] = useState(false)
+    const [printedPosts, setPrintedPosts] = useState([])
+
 
     const localGiffyUser = localStorage.getItem("giffy_user")
     const giffyUserObj = JSON.parse(localGiffyUser)
 
-    
+
     useEffect(
         () => {
             stateOfFilter.selectedYear = parseInt(filteredByYear)
-
+            setFilterUpdated(!filterUpdated)
         },
         [filteredByYear]
     )
     useEffect(
         () => {
             stateOfFilter.selectedUser = parseInt(filteredByUser)
+            setFilterUpdated(!filterUpdated)
+
         },
         [filteredByUser]
     )
     useEffect(
         () => {
-            stateOfFilter.favoritesOnly = true
+            stateOfFilter.favoritesOnly = filteredByFavorite
+            setFilterUpdated(!filterUpdated)
+
         },
         [filteredByFavorite]
     )
-
     useEffect(
         () => {
             getAllPosts()
                 .then((postsArr) => {
                     postsArr.sort((a, b) => b.id - a.id)
                     setSortedPosts(postsArr)
-
-                    setPosts(postsArr)
+                    setPrintedPosts(postsArr)
+                    // setPosts(postsArr)
                 })
         },
-        [renderSwitch]
+        []
     )
-    
+
     useEffect(
         () => {
             getAllUserFavorites()
@@ -69,95 +75,60 @@ export const PostList = () => {
         [renderSwitch]
     )
 
-    // useEffect(
-    //     () => {
-    //         if(filteredByYear === "0") {
-    //             setSortedPosts(posts)
-    //         } 
-    //         else {
-    //             const postsFilteredByYear = posts.filter(post => {
-    //                 const [,,postYear] = post.date.split("/")
-    //                 return filteredByYear === postYear
-    //             })
-    //             setSortedPosts(postsFilteredByYear)
-                
-    //         }
-    //     },
-    //     [filteredByYear]
-    // )
 
-    // useEffect(
-    //     () => {
-    //         const activeUserFavorites = userFavorites.filter(userFav => userFav.userId === giffyUserObj.id)
-    //         let newFavoriteArr = []
-    //         if (filteredByFavorite) {
-    //             activeUserFavorites.map(userFav => {
-    //                 const matchedFavorite = sortedPosts.find(post => post.id === userFav.postId)
-    //                 newFavoriteArr.push(matchedFavorite)
-    //             })
-    //             newFavoriteArr.sort((a, b) => b.id - a.id)
+    const filteredYear = stateOfFilter.selectedYear
 
-    //             setSortedPosts(newFavoriteArr)
-    //         }
-    //     },
-    //     [filteredByFavorite]
-    // )
-
-    // useEffect(
-    //     () => {
-    //         if(filteredByUser === "0") {
-    //             setSortedPosts(posts)
-    //         } 
-    //         else {
-    //             const postsFilteredByUser = posts.filter(post => post.userId === parseInt(filteredByUser))
-
-    //             setSortedPosts(postsFilteredByUser)
-                
-    //         }
-    //     },
-    //     [filteredByUser]
-    // )
-
-    let filteredPosts = sortedPosts
-
-    
 
     useEffect(
         () => {
-            if (stateOfFilter.selectedYear) {
-                filteredPosts = filteredPosts.filter(post => {
-                    let [,,postYear] = post.date.split("/")
-                    return postYear === stateOfFilter.selectedYear
-                })
-            }
-            if (stateOfFilter.selectedUser) {
-                filteredPosts = filteredPosts.filter(post => post.userId === stateOfFilter.selectedUser)
-            }
-            if (stateOfFilter.favoritesOnly) {
-                let filteredFavPosts = []
-                {
-                    userFavorites.map(userFav => {
-                        if (giffyUserObj.id === userFav.userId) {
-                            filteredFavPosts.push(userFav)
+            if (sortedPosts) {
+                // setPrintedPosts(sortedPosts)
+                let filteredPosts = sortedPosts
+
+                if (stateOfFilter.selectedYear !== 0) {
+                    filteredPosts = filteredPosts.filter(post => {
+                        let [, , postYear] = post.date.split("/")
+                        if (parseInt(postYear) === filteredYear) {
+                            return true
                         }
                     })
                 }
-                
-                
-                filteredPosts = filteredPosts.filter(post => {
-                    filteredFavPosts.map(filteredFav => {
-                        if (post.id === filteredFav.postId) {
-                            return true
-                        }
-                        return false
+                if (stateOfFilter.selectedUser) {
+                    filteredPosts = filteredPosts.filter(post => post.userId === stateOfFilter.selectedUser)
+                }
+                if (filteredByFavorite === true) {
+                    let filteredFavPosts = []
+                    {
+                        userFavorites.map(userFav => {
+                            if (giffyUserObj.id === userFav.userId) {
+                                filteredFavPosts.push(userFav)
+                            }
+                        })
                     }
-                    )
-                    
-                })
-                
+
+
+                    let favArr = []
+                    filteredFavPosts.map(filteredFav => {  
+                        let favPost = filteredPosts.find(post => post.id === filteredFav.postId)
+                        favArr.push(favPost)
+
+                        // filteredPosts = filteredPosts.filter(post => {
+                        //     if (post.id === filteredFav.postId) {
+                        //         return true
+                        //     }
+                        //     return false
+                        // })
+
+                    })
+                    filteredPosts = favArr
+
+                }
+                setPrintedPosts(filteredPosts)
+
+
             }
         },
-        [stateOfFilter]
+        [filterUpdated, sortedPosts]
     )
 
     const isFavorited = (post) => {
@@ -183,7 +154,7 @@ export const PostList = () => {
                     }
                     sendUserFavorite(newUserFav)
                     setRenderSwitch(!renderSwitch)
-                } } ></BlankStar>
+                }} ></BlankStar>
             </>
         }
     }
@@ -199,7 +170,7 @@ export const PostList = () => {
                     fetch(`http://localhost:8088/posts/${post.id}`, {
                         method: "DELETE"
                     })
-                    .then(setRenderSwitch(!renderSwitch))
+                        .then(setRenderSwitch(!renderSwitch))
                 } ></TrashIcon>
             </>
         }
@@ -212,7 +183,7 @@ export const PostList = () => {
                 <NewPost />
 
                 {
-                    filteredPosts.map(post => {
+                    printedPosts.map(post => {
                         return (
                             <section className="post" key={post.id}>
                                 <h4>{post.title}</h4>

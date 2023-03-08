@@ -6,7 +6,7 @@ export const NavBarContext = createContext()
 export const NavBarProvider = (props) => {
     const [createMessage, setCreateMessage] = useState(false)
     const [msgReadSwitch, setMsgReadSwitch] = useState(false)
-    const [filteredByYear, setFilteredByYear] = useState("")
+    const [filteredByYear, setFilteredByYear] = useState(0)
     const [filteredByUser, setFilteredByUser] = useState(0)
     const [filteredByFavorite, setFilteredByFavorite] = useState(false)
     const [renderSwitch, setRenderSwitch] = useState(false)
