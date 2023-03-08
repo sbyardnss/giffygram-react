@@ -76,11 +76,16 @@ export const PostList = () => {
     )
 
 
+    
+
+
+
     const filteredYear = stateOfFilter.selectedYear
 
 
     useEffect(
         () => {
+
             if (sortedPosts) {
                 // setPrintedPosts(sortedPosts)
                 let filteredPosts = sortedPosts
@@ -108,7 +113,7 @@ export const PostList = () => {
 
 
                     let favArr = []
-                    filteredFavPosts.map(filteredFav => {  
+                    filteredFavPosts.map(filteredFav => {
                         let favPost = filteredPosts.find(post => post.id === filteredFav.postId)
                         if (favPost) {
                             favArr.push(favPost)
@@ -123,7 +128,7 @@ export const PostList = () => {
 
             }
         },
-        [filterUpdated, sortedPosts]
+        [filterUpdated, sortedPosts, renderSwitch]
     )
 
     const isFavorited = (post) => {
@@ -138,6 +143,8 @@ export const PostList = () => {
                         method: "DELETE"
                     })
                     setRenderSwitch(!renderSwitch)
+                    
+
                 }} ></YellowStar>
             </>
         } else {
@@ -147,8 +154,8 @@ export const PostList = () => {
                         userId: giffyUserObj.id,
                         postId: post.id
                     }
-                    sendUserFavorite(newUserFav)
                     setRenderSwitch(!renderSwitch)
+                    sendUserFavorite(newUserFav)
                 }} ></BlankStar>
             </>
         }
@@ -165,7 +172,7 @@ export const PostList = () => {
                     fetch(`http://localhost:8088/posts/${post?.id}`, {
                         method: "DELETE"
                     })
-                        .then(setRenderSwitch(!renderSwitch))
+                        .then(() => setRenderSwitch(!renderSwitch))
                 } ></TrashIcon>
             </>
         }

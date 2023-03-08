@@ -56,7 +56,7 @@ export const NewMessage = () => {
                             <select onChange={
                                 (evt) => {
                                     const copy = { ...newMessage }
-                                    copy.title = evt.target.value
+                                    copy.postRecipient = parseInt(evt.target.value)
                                     updateNewMessage(copy)
                                 }
                             } >
