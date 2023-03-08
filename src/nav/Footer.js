@@ -49,7 +49,7 @@ export const Footer = () => {
             <div className="footer">
                 <div className="footer__item">
                     Posts since
-                    <select className="yearSelection" id="yearSelection" onChange={(evt) => setFilteredByYear(evt.target.value).then(setRenderSwitch(!renderSwitch))}>
+                    <select className="yearSelection" id="yearSelection" onChange={(evt) => setFilteredByYear(evt.target.value)}>
                         <option key="0" value="0">Select A Year</option>
                         {
                             yearFilters.map(year => {
